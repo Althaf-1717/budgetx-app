@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | BudgetX</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="./css/main.css">
+  <link rel="stylesheet" href="./css/dashboard.css">
+</head>
+<body>
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <i class="fa-solid fa-wallet"></i> BudgetX
+    </div>
+    <div class="nav-user">
+      <div class="avatar" id="userAvatar">U</div>
+      <span id="userNameDisplay" style="font-weight: 600;">User</span>
+      <button class="logout-btn" id="logoutBtn">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+      </button>
+    </div>
+  </nav>
+
+  <div class="dashboard-container">
+    <!-- Quick Stats -->
+    <div class="stats-grid">
+      <div class="stat-card glass-panel">
+        <div class="stat-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+        <div class="stat-info">
+          <h3>Total Expenses</h3>
+          <div class="stat-value" id="statTotalExpenses">0.00</div>
+        </div>
+      </div>
+      <div class="stat-card glass-panel">
+        <div class="stat-icon"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
+        <div class="stat-info">
+          <h3>Total Converted (USD)</h3>
+          <div class="stat-value" id="statTotalConverted">0.00</div>
+        </div>
+      </div>
+      <div class="stat-card glass-panel">
+        <div class="stat-icon"><i class="fa-solid fa-chart-pie"></i></div>
+        <div class="stat-info">
+          <h3>Top Category</h3>
+          <div class="stat-value" id="statTopCategory">-</div>
+        </div>
+      </div>
+      <div class="stat-card glass-panel">
+        <div class="stat-icon"><i class="fa-solid fa-coins"></i></div>
+        <div class="stat-info">
+          <h3>Most Used Currency</h3>
+          <div class="stat-value" id="statTopCurrency">-</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="main-grid">
+      <!-- Currency Converter -->
+      <div class="converter-panel glass-panel">
+        <div class="panel-header">
+          <h3><i class="fa-solid fa-globe"></i> Express Converter</h3>
+          <span class="rate-info" id="lastUpdatedTime">Loading rates...</span>
+        </div>
+        
+        <div class="input-group" style="margin-bottom: 20px;">
+          <input type="number" id="convertAmount" class="input-field" placeholder=" " value="1">
+          <label for="convertAmount" class="input-label">Amount</label>
+        </div>
+
+        <div class="exchange-row">
+          <div class="currency-select-group">
+            <select id="fromCurrency" class="currency-select"></select>
+          </div>
+          
+          <button class="swap-btn" id="swapBtn">
+            <i class="fa-solid fa-right-left"></i>
+          </button>
+          
+          <div class="currency-select-group">
+            <select id="toCurrency" class="currency-select"></select>
+          </div>
+        </div>
+
+        <div class="result-box">
+          <div class="result-value" id="convertResult">0.00</div>
+          <div class="rate-info" id="exchangeRateInfo">1 USD = 1 USD</div>
+        </div>
+      </div>
+
+      <!-- Expense Tracker -->
+      <div class="tracker-panel glass-panel">
+        <div class="panel-header">
+          <h3><i class="fa-solid fa-list-check"></i> Recent Expenses</h3>
+          <button class="btn-primary" id="toggleExpenseFormBtn" style="padding: 8px 16px; font-size: 14px;">
+            <i class="fa-solid fa-plus"></i> Add
+          </button>
+        </div>
+
+        <!-- Add Expense Form -->
+        <div class="expense-form glass-card" id="expenseFormContainer" style="padding: 20px;">
+          <form id="addExpenseForm">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+              <div class="input-group">
+                <input type="number" id="expAmount" class="input-field" placeholder=" " required>
+                <label for="expAmount" class="input-label">Amount</label>
+              </div>
+              <div class="input-group">
+                <select id="expCurrency" class="input-field" required></select>
+                <label for="expCurrency" class="input-label" style="top: -10px; font-size: 12px; color: var(--primary);">Currency</label>
+              </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+              <div class="input-group">
+                <select id="expCategory" class="input-field" required>
+                  <option value="Food">Food</option>
+                  <option value="Travel">Travel</option>
+                  <option value="Shopping">Shopping</option>
+                  <option value="Health">Health</option>
+                  <option value="Entertainment">Entertainment</option>
+                  <option value="Utilities">Utilities</option>
+                  <option value="Other">Other</option>
+                </select>
+                <label for="expCategory" class="input-label" style="top: -10px; font-size: 12px; color: var(--primary);">Category</label>
+              </div>
+              <div class="input-group">
+                <input type="date" id="expDate" class="input-field" required>
+                <label for="expDate" class="input-label" style="top: -10px; font-size: 12px; color: var(--primary);">Date</label>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <input type="text" id="expDesc" class="input-field" placeholder=" ">
+              <label for="expDesc" class="input-label">Description (Optional)</label>
+            </div>
+
+            <button type="submit" class="btn-primary" style="width: 100%;">Save Expense</button>
+          </form>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-bar">
+          <select id="filterCategory" class="filter-select">
+            <option value="All">All Categories</option>
+            <option value="Food">Food</option>
+            <option value="Travel">Travel</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Health">Health</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Utilities">Utilities</option>
+            <option value="Other">Other</option>
+          </select>
+          <select id="filterCurrency" class="filter-select">
+            <option value="All">All Currencies</option>
+          </select>
+        </div>
+
+        <!-- List -->
+        <div class="expenses-list" id="expensesList">
+          <div style="text-align: center; color: var(--text-gray); padding: 20px;">No expenses found. Add one!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts & Budget Dashboard -->
+    <div class="chart-budget-grid">
+      <!-- Budget Panel -->
+      <div class="budget-panel glass-panel">
+        <div class="panel-header">
+          <h3><i class="fa-solid fa-bullseye"></i> Category Limits</h3>
+          <button class="btn-primary" style="padding: 6px 12px; font-size: 12px;" onclick="budgetManager.saveLimits()">Save Limits</button>
+        </div>
+        <div id="budgetProgressBars">
+          <!-- Dynamically filled by JS -->
+          <div style="text-align: center; color: #777;">Loading budgets...</div>
+        </div>
+        <div id="budgetSuggestionsContainer"></div>
+      </div>
+
+      <!-- Chart Panel -->
+      <div class="budget-panel glass-panel">
+        <div class="panel-header">
+          <h3><i class="fa-solid fa-chart-donut"></i> Spending Breakdown</h3>
+        </div>
+        <div class="chart-container">
+          <canvas id="spendingDonutChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="./js/converter.js"></script>
+  <script src="./js/tracker.js"></script>
+  <script src="./js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up | BudgetX</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="./css/main.css">
+  <link rel="stylesheet" href="./css/auth.css">
+</head>
+<body>
+  <div class="toast-container" id="toastContainer"></div>
+
+  <div class="auth-container">
+    <div class="auth-left">
+      <div class="floating-elements">
+        <i class="fa-solid fa-wallet coin"></i>
+        <i class="fa-solid fa-chart-line coin"></i>
+        <i class="fa-solid fa-piggy-bank coin"></i>
+        <i class="fa-solid fa-credit-card coin"></i>
+      </div>
+      <div class="auth-left-content">
+        <h1 class="typewriter-text" id="typewriterText">Track. Convert. Save Smarter.</h1>
+        <p style="font-size: 1.2rem; opacity: 0.9;">Join BudgetX and take control of your financial journey today.</p>
+      </div>
+    </div>
+    
+    <div class="auth-right">
+      <div class="auth-form-card glass-panel">
+        <div class="auth-header">
+          <h2>Create Account</h2>
+          <p>Get started with your free account</p>
+        </div>
+        
+        <form id="signupForm">
+          <div class="input-group">
+            <input type="text" id="name" class="input-field" placeholder=" " required>
+            <label for="name" class="input-label">Full Name</label>
+          </div>
+
+          <div class="input-group">
+            <input type="email" id="email" class="input-field" placeholder=" " required>
+            <label for="email" class="input-label">Email Address</label>
+          </div>
+
+          <div class="input-group">
+            <input type="password" id="password" class="input-field" placeholder=" " required>
+            <label for="password" class="input-label">Password</label>
+            <i class="fa-regular fa-eye password-toggle" id="togglePassword"></i>
+          </div>
+          <div class="password-strength">
+            <div class="strength-bar" id="strengthBar"></div>
+          </div>
+
+          <div class="input-group">
+            <input type="password" id="confirmPassword" class="input-field" placeholder=" " required>
+            <label for="confirmPassword" class="input-label">Confirm Password</label>
+          </div>
+
+          <div class="extra-links">
+            <label class="checkbox-container">
+              <input type="checkbox" id="termsAgreed" required>
+              <span>I agree to the Terms & Conditions</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn-primary auth-btn" id="signupBtn">
+            <span class="btn-text">Create Account</span>
+          </button>
+        </form>
+
+        <p class="auth-switch">Already have an account? <a href="index.html">Sign In</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="./js/auth.js"></script>
+</body>
+</html>
