@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://budgetx-app.onrender.com/api';
 
 // --- UI Utilities ---
 function showToast(message, isError = false) {

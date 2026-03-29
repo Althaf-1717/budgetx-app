@@ -73,7 +73,7 @@ class DashboardUI {
 
   async fetchBudgets() {
     try {
-      const res = await fetch('http://localhost:5000/api/expenses/budget', {
+      const res = await fetch('https://budgetx-app.onrender.com/api/expenses/budget', {
         headers: { 'Authorization': `Bearer ${this.token}` }
       });
       const data = await res.json();
@@ -95,7 +95,7 @@ class DashboardUI {
         Food: parseFloat(newFood) || 0
       };
 
-      const res = await fetch('http://localhost:5000/api/expenses/budget', {
+      const res = await fetch('https://budgetx-app.onrender.com/api/expenses/budget', {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',
