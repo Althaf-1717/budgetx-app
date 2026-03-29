@@ -48,27 +48,25 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/expenses', require('./routes/expenses')); // Note: budget and rates inside expenses for simplicity in this demo
 
-const { MongoMemoryServer } = require('mongodb-memory-server');
-
 // Database Connection
 const PORT = process.env.PORT || 5000;
-let MONGO_URI = process.env.MONGO_URI;
+const MONGO_URI = process.env.MONGO_URI;
+
+if (!MONGO_URI) {
+  console.error('❌ ERROR: MONGO_URI environment variable is not set!');
+  process.exit(1);
+}
 
 const startServer = async () => {
   try {
-    // Automatically use an in-memory database if a real one isn't provided
-    if (!MONGO_URI || MONGO_URI.includes('localhost')) {
-      console.log('⏳ Creating an in-memory MongoDB...');
-      const mongoServer = await MongoMemoryServer.create();
-      MONGO_URI = mongoServer.getUri();
-    }
-
     await mongoose.connect(MONGO_URI);
-    console.log('✅ MongoDB Connected to ' + (MONGO_URI.includes('localhost') ? 'Memory' : 'Cloud/Network'));
+    console.log('✅ MongoDB Connected to Cloud/Network');
     app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
   } catch (err) {
     console.error('❌ MongoDB Connection Error:', err);
+    process.exit(1);
   }
 };
 
 startServer();
+
