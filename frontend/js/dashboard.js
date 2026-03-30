@@ -78,22 +78,49 @@ class DashboardUI {
       });
       const data = await res.json();
       if(data.success) {
-        this.budgetLimits = data.data;
+        this.budgetLimits = data.data || {};
       }
     } catch (err) {
       console.error('Failed to fetch budgets');
     }
   }
 
-  async saveLimits() {
-    try {
-      // In a real app we'd open a modal. For simplicity, we just prompt here.
-      const newFood = prompt("Enter Food limit:", this.budgetLimits.Food);
-      if(newFood === null) return;
+  saveLimits() {
+    this.budgetLimits = this.budgetLimits || {};
+    const modal = document.getElementById('budgetModal');
+    const fieldsContainer = document.getElementById('budgetModalFields');
+    if (!modal || !fieldsContainer) return;
+    
+    const categories = ['Food', 'Travel', 'Shopping', 'Health', 'Entertainment', 'Utilities', 'Other'];
+    fieldsContainer.innerHTML = '';
+    
+    categories.forEach(cat => {
+      const currentLimit = this.budgetLimits[cat] || '';
+      fieldsContainer.innerHTML += `
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <label style="color:#aaa; width:120px;">${cat}</label>
+          <input type="number" id="limit_${cat}" value="${currentLimit}" placeholder="0" 
+                 style="flex:1; padding:8px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.2); color:#fff; font-family:'Inter', sans-serif;">
+        </div>
+      `;
+    });
+    
+    modal.style.display = 'flex';
+  }
 
-      const body = {
-        Food: parseFloat(newFood) || 0
-      };
+  async saveLimitsFromModal() {
+    try {
+      const categories = ['Food', 'Travel', 'Shopping', 'Health', 'Entertainment', 'Utilities', 'Other'];
+      const body = {};
+      
+      categories.forEach(cat => {
+        const input = document.getElementById(`limit_${cat}`);
+        if(input) {
+          const val = parseFloat(input.value);
+          if(!isNaN(val) && val > 0) body[cat] = val;
+          else if(val === 0 || input.value === '') body[cat] = 0; // handle clearing logic
+        }
+      });
 
       const res = await fetch('https://budgetx-app.onrender.com/api/expenses/budget', {
         method: 'PUT',
@@ -106,11 +133,15 @@ class DashboardUI {
       
       const data = await res.json();
       if(data.success){
-        this.budgetLimits = data.data;
+        this.budgetLimits = data.data || {};
         this.updateDashboard();
+        document.getElementById('budgetModal').style.display = 'none';
         window.tracker.showToast('Budgets updated successfully');
+      } else {
+        window.tracker.showToast('Failed to update budgets', true);
       }
     } catch(err) {
+      console.error(err);
       window.tracker.showToast('Failed to update budgets', true);
     }
   }
