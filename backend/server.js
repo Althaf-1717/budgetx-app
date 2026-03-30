@@ -11,24 +11,9 @@ const app = express();
 // Security Middleware
 app.use(helmet());
 
-// Allow all common local and deployed origins
-const allowedOrigins = [
-  'http://localhost:5500',
-  'http://127.0.0.1:5500',
-  'http://localhost:5000',
-  'http://127.0.0.1:5000',
-  process.env.FRONTEND_URL
-].filter(Boolean);
-
+// Allow all origins for the student demo (reflect origin)
 app.use(cors({
-  origin: function(origin, callback) {
-    // Allow requests with no origin (like Postman/curl) or from allowed list
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: true,
   credentials: true
 }));
 
