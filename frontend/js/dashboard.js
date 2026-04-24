@@ -73,7 +73,8 @@ class DashboardUI {
 
   async fetchBudgets() {
     try {
-      const res = await fetch('https://budgetx-app.onrender.com/api/expenses/budget', {
+      const apiUrl = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : '/api';
+      const res = await fetch(`${apiUrl}/expenses/budget`, {
         headers: { 'Authorization': `Bearer ${this.token}` }
       });
       const data = await res.json();
@@ -122,7 +123,8 @@ class DashboardUI {
         }
       });
 
-      const res = await fetch('https://budgetx-app.onrender.com/api/expenses/budget', {
+      const apiUrl = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : '/api';
+      const res = await fetch(`${apiUrl}/expenses/budget`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',

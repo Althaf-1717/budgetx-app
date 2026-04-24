@@ -14,7 +14,8 @@ class CurrencyConverter {
 
   async fetchRates() {
     try {
-      const res = await fetch('https://budgetx-app.onrender.com/api/expenses/rates');
+      const apiUrl = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : '/api';
+      const res = await fetch(`${apiUrl}/expenses/rates`);
       const data = await res.json();
       if (data.success) {
         this.rates = data.rates;

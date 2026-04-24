@@ -26,7 +26,8 @@ class ExpenseTracker {
 
   async fetchExpenses() {
     try {
-      const res = await fetch('https://budgetx-app.onrender.com/api/expenses', {
+      const apiUrl = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : '/api';
+      const res = await fetch(`${apiUrl}/expenses`, {
         headers: { 'Authorization': `Bearer ${this.token}` }
       });
       const data = await res.json();
@@ -43,7 +44,8 @@ class ExpenseTracker {
 
   async addExpense(expenseData) {
     try {
-      const res = await fetch('https://budgetx-app.onrender.com/api/expenses', {
+      const apiUrl = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : '/api';
+      const res = await fetch(`${apiUrl}/expenses`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -69,7 +71,8 @@ class ExpenseTracker {
 
   async deleteExpense(id) {
     try {
-      const res = await fetch(`https://budgetx-app.onrender.com/api/expenses/${id}`, {
+      const apiUrl = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : '/api';
+      const res = await fetch(`${apiUrl}/expenses/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${this.token}` }
       });
