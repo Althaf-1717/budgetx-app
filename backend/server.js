@@ -46,7 +46,9 @@ const startServer = async () => {
   try {
     await mongoose.connect(MONGO_URI);
     console.log('✅ MongoDB Connected to Cloud/Network');
-    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+    if (process.env.NODE_ENV !== 'production') {
+      app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+    }
   } catch (err) {
     console.error('❌ MongoDB Connection Error:', err);
     process.exit(1);
@@ -55,3 +57,4 @@ const startServer = async () => {
 
 startServer();
 
+module.exports = app;

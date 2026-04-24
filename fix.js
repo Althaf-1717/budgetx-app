@@ -25,8 +25,7 @@ const files = walk('.');
 files.forEach(f => {
   if (f === 'fix.js' || f.includes('node_modules')) return;
   let text = fs.readFileSync(f, 'utf8');
-  // We want to replace literal \` with `
-  // We want to replace literal \$ with $
+ 
   let newText = text.replace(/\\\\`/g, '`').replace(/\\\\\\$/g, '$');
   
   if (text !== newText) {
