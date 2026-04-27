@@ -109,7 +109,7 @@ router.get('/rates', (req, res) => {
     USD: 1,
     EUR: 0.92,
     GBP: 0.79,
-    INR: 83.15,
+    INR: 92.00,
     JPY: 151.20,
     AED: 3.67,
     CAD: 1.35,

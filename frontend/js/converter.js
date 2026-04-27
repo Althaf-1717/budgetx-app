@@ -26,7 +26,7 @@ class CurrencyConverter {
       console.error('Failed to fetch rates', error);
       // Fallback mock rates
       this.rates = {
-        USD: 1, EUR: 0.92, GBP: 0.79, INR: 83.15, JPY: 151.20,
+        USD: 1, EUR: 0.92, GBP: 0.79, INR: 92.00, JPY: 151.20,
         AED: 3.67, CAD: 1.35, SGD: 1.34, AUD: 1.53, CHF: 0.89
       };
       document.getElementById('lastUpdatedTime').innerText = 'Offline Mode';
